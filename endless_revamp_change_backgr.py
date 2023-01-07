@@ -176,6 +176,14 @@ while running: #main game loop
                     screen.blit(title, (50, 100))
                     pygame.display.update()
                     timer.tick(15)
+                    if score > score_file:
+                        score_file = score
+                        title = end_text.render(f"New Highscore!: {score_file}", True, white, black)
+                        screen.blit(title,(50,50))
+                        pygame.display.update()
+                        timer.tick(15)
+                        with open("highscore.txt", "w") as f:
+                            f.write(str(score_file))            
 
                     for event in pygame.event.get():
                         if event.type == pygame.QUIT:
@@ -191,15 +199,8 @@ while running: #main game loop
                                         score_file = int(f.read()) #checks if number in file
                                     except:
                                         score_file = 0 #nothing in file
-                                if score > score_file:
-                                    score_file = score
-                                    title = end_text.render(f"New Highscore!: {score_file}", True, white, black)
-                                    screen.blit(title,(50,50))
-                                    pygame.display.update()
-                                    timer.tick(15)
-                                    with open("highscore.txt", "w") as f:
-                                        f.write(str(score_file))
-                                else:
+                                if score <= score_file:
+                                    screen.fill(black)
                                     title = end_text.render(f"Highscore: {score_file}", True, white, black)
                                     screen.blit(title, (50,50))
       
